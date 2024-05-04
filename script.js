@@ -6,9 +6,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 const startScreen = document.getElementById("container");
 const enterBtn = document.getElementById("enterBtn");
 
-
 let renderer, camera, scene, pointerControl, orbitControls;
-
 
 scene = new THREE.Scene({ antialize: true });
 
@@ -39,7 +37,7 @@ const cubeMat = new THREE.MeshStandardMaterial({ color: "green" });
 const cube = new THREE.Mesh(cubeGeo, cubeMat);
 cube.castShadow = true;
 cube.receiveShadow = true;
-cube.position.set(0,-5,0)
+cube.position.set(0, -5, 0);
 scene.add(cube);
 
 //create floor
@@ -123,14 +121,14 @@ function checkCollision() {
 scene.add(wallGroup);
 
 //create lights
-const ambLight = new THREE.AmbientLight(0xffffff, .5);
+const ambLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambLight);
 
-const spotLight = new THREE.SpotLight(0xfffffff, 1000, -13,Math.PI/3, 0.7);
-spotLight.position.set(3,  -1, 4)
-spotLight.rotation.x = 0
+const spotLight = new THREE.SpotLight(0xfffffff, 1000, -13, Math.PI / 3, 0.7);
+spotLight.position.set(3, -1, 4);
+spotLight.rotation.x = 0;
 spotLight.castShadow = true;
-spotLight.shadow.bias = -0.0001
+spotLight.shadow.bias = -0.0001;
 scene.add(spotLight);
 
 // const spotLightHelper = new THREE.SpotLightHelper(spotLight);
@@ -233,7 +231,8 @@ scene.add(photo9);
 
 //start and stop gallery entry
 
-enterBtn.addEventListener("click", () => {
+enterBtn.addEventListener("click", (e) => {
+  e.preventDefault();
   startExperience();
 });
 
