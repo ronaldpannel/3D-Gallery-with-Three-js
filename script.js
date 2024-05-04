@@ -143,8 +143,7 @@ spotLight1.castShadow = true;
 spotLight1.shadow.bias = -0.0001;
 scene.add(spotLight1);
 
-// const spotLightHelper1 = new THREE.SpotLightHelper(spotLight1);
-// scene.add(spotLightHelper1);
+// r
 
 //create Paintings
 function createPainting(imageUrl, width, height, position) {
