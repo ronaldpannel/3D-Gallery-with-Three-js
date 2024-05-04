@@ -240,8 +240,8 @@ enterBtn.addEventListener("touchstart", () => {
 });
 
 function startExperience() {
-  pointerControl.lock();
   hideMenu();
+  pointerControl.lock();
 }
 
 function hideMenu() {
