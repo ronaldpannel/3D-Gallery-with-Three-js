@@ -70,6 +70,8 @@ p:nth-child(4) {
   outline: none;
   cursor: pointer;
   transition: 300ms ease-in-out;
+  /* pointer-events: none; */
+  touch-action: none;
 }
 .enterBtn:hover {
   box-shadow: -5px -5px 30px rgba(255, 255, 255, 0.9);
