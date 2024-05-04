@@ -235,6 +235,9 @@ enterBtn.addEventListener("click", (e) => {
   e.preventDefault();
   startExperience();
 });
+enterBtn.addEventListener("touchstart", () => {
+  startExperience();
+});
 
 function startExperience() {
   pointerControl.lock();
