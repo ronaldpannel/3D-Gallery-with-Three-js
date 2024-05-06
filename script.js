@@ -18,7 +18,7 @@ camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 20;
+camera.position.z = 22;
 
 renderer = new THREE.WebGLRenderer();
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -80,6 +80,15 @@ rightWall.receiveShadow = true;
 rightWall.rotation.y = Math.PI / 2;
 rightWall.position.x = 20;
 
+//create front wall
+const frontWallTexture = new THREE.TextureLoader().load("WallText.webp");
+const frontWallGeo = new THREE.BoxGeometry(50, 20, 0.001);
+const frontWallMat = new THREE.MeshStandardMaterial({ map: frontWallTexture });
+const frontWall = new THREE.Mesh(frontWallGeo, frontWallMat);
+frontWall.castShadow = true;
+frontWall.receiveShadow = true;
+frontWall.position.z = 25;
+
 // create celling
 const cellingTexture = new THREE.TextureLoader().load("OfficeCeiling.png");
 const cellingMAt = new THREE.MeshStandardMaterial({ map: cellingTexture });
@@ -95,6 +104,7 @@ const wallGroup = new THREE.Group();
 wallGroup.add(backWall);
 wallGroup.add(leftWall);
 wallGroup.add(rightWall);
+wallGroup.add(frontWall);
 
 //create collision bounding box for each wall
 for (let i = 0; i < wallGroup.children.length; i++) {
@@ -121,27 +131,64 @@ function checkCollision() {
 scene.add(wallGroup);
 
 //create lights
-const ambLight = new THREE.AmbientLight(0xffffff, 0.5);
+const ambLight = new THREE.AmbientLight(0xffffff, 0.9);
 scene.add(ambLight);
 
-const spotLight = new THREE.SpotLight(0xfffffff, 1000, -13, Math.PI / 3, 0.7);
-spotLight.position.set(3, -1, 4);
-spotLight.rotation.x = 0;
-spotLight.castShadow = true;
-spotLight.shadow.bias = -0.0001;
-scene.add(spotLight);
+const directionalLight = new THREE.DirectionalLight(0xfffffff, 1.2);
+directionalLight.position.set(0, 0, 0);
+directionalLight.castShadow = true;
+directionalLight.shadow.bias = -0.0001;
+scene.add(directionalLight);
 
-// const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-// scene.add(spotLightHelper);
+const targetObject = new THREE.Object3D();
+targetObject.position.set(0, 0, 3);
+scene.add(targetObject);
+directionalLight.target = targetObject;
+// const helper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// scene.add(helper);
 
-const spotLight1 = new THREE.SpotLight(0xfffffff, 1000, -13, Math.PI / 3, 0.7);
-spotLight1.position.set(-4, -1, 4);
-spotLight1.rotation.x = 0;
-spotLight1.castShadow = true;
-spotLight1.shadow.bias = -0.0001;
-scene.add(spotLight1);
+const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight1.position.set(0, 0, 0);
+directionalLight1.castShadow = true;
+directionalLight1.shadow.bias = -0.0001;
+scene.add(directionalLight1);
 
-// r
+const targetObject1 = new THREE.Object3D();
+targetObject1.position.set(0, 0, -3);
+scene.add(targetObject1);
+directionalLight1.target = targetObject1;
+// const helper1 = new THREE.DirectionalLightHelper(directionalLight1, 5);
+// scene.add(helper1);
+
+const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight2.position.set(0, 0, 0);
+directionalLight2.rotation.x = Math.PI / 2;
+directionalLight2.castShadow = true;
+directionalLight2.shadow.bias = -0.0001;
+scene.add(directionalLight2);
+
+const targetObject2 = new THREE.Object3D();
+targetObject2.position.set(3, 0, 0);
+scene.add(targetObject2);
+
+directionalLight2.target = targetObject2;
+// const helper2 = new THREE.DirectionalLightHelper(directionalLight2, 5);
+// scene.add(helper2);
+
+const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight3.position.set(4, 0, 0);
+directionalLight3.rotation.x = Math.PI / 2;
+directionalLight3.castShadow = true;
+directionalLight3.shadow.bias = -0.0001;
+scene.add(directionalLight3);
+
+const targetObject3 = new THREE.Object3D();
+targetObject3.position.set(-3, 0, 0);
+scene.add(targetObject3);
+directionalLight3.target = targetObject3;
+
+// const helper3 = new THREE.DirectionalLightHelper(directionalLight2, 5);
+// scene.add(helper3);
 
 //create Paintings
 function createPainting(imageUrl, width, height, position) {
@@ -157,15 +204,15 @@ const photo1 = createPainting(
   "chase.jpeg",
   5,
   10,
-  new THREE.Vector3(-15, 0, -19)
+  new THREE.Vector3(-10, 0, -19)
 );
-
 scene.add(photo1);
+
 const photo2 = createPainting(
   "rose.jpeg",
   5,
   10,
-  new THREE.Vector3(-8, 0, -19.99)
+  new THREE.Vector3(0, 0, -19.99)
 );
 scene.add(photo2);
 
@@ -173,7 +220,7 @@ const photo3 = createPainting(
   "ralph.jpeg",
   5,
   10,
-  new THREE.Vector3(0, 0, -19.99)
+  new THREE.Vector3(10, 0, -19.99)
 );
 scene.add(photo3);
 
@@ -181,22 +228,25 @@ const photo4 = createPainting(
   "erin.jpeg",
   5,
   10,
-  new THREE.Vector3(7.5, 0, -19.99)
+  new THREE.Vector3(19.99, 0, -8.99)
 );
+photo4.rotation.y = -Math.PI / 2;
 scene.add(photo4);
+
 const photo5 = createPainting(
   "nora.jpeg",
   5,
   10,
-  new THREE.Vector3(15.5, 0, -19.99)
+  new THREE.Vector3(19.99, 0, 4)
 );
+photo5.rotation.y = -Math.PI / 2;
 scene.add(photo5);
 
 const photo6 = createPainting(
   "neve.jpeg",
   5,
   9,
-  new THREE.Vector3(19.99, 0, -12.99)
+  new THREE.Vector3(19.99, 0, 16)
 );
 photo6.rotation.y = -Math.PI / 2;
 scene.add(photo6);
@@ -205,30 +255,55 @@ const photo7 = createPainting(
   "nora and neve.jpeg",
   5,
   8,
-  new THREE.Vector3(19.99, 0, -5.5)
+  new THREE.Vector3(10.99, -0, 24.99)
 );
-photo7.rotation.y = -Math.PI / 2;
+photo7.rotation.y = -Math.PI;
 scene.add(photo7);
 
 const photo8 = createPainting(
   "Vicky.jpeg",
   5,
   10,
-  new THREE.Vector3(-19.99, 0, -12.99)
+  new THREE.Vector3(-0.5, -0, 24.99)
 );
-
-photo8.rotation.y = Math.PI / 2;
+photo8.rotation.y = -Math.PI;
 scene.add(photo8);
 
 const photo9 = createPainting(
   "nicola.jpeg",
   5,
   10,
-  new THREE.Vector3(-19.99, 0, -5.5)
+  new THREE.Vector3(-10.99, 0, 24.99)
 );
-photo9.rotation.y = Math.PI / 2;
+photo9.rotation.y = -Math.PI;
 scene.add(photo9);
 
+const photo10 = createPainting(
+  "Archie.jpeg",
+  6,
+  12,
+  new THREE.Vector3(-19.9, 0, -10)
+);
+photo10.rotation.y = Math.PI / 2;
+scene.add(photo10);
+
+const photo11 = createPainting(
+  "Rita.jpeg",
+  6,
+  12,
+  new THREE.Vector3(-19.9, 0, 3)
+);
+photo11.rotation.y = Math.PI / 2;
+scene.add(photo11);
+
+const photo12 = createPainting(
+  "Doug.jpeg",
+  6,
+  12,
+  new THREE.Vector3(-19.9, 0, 16)
+);
+photo12.rotation.y = Math.PI / 2;
+scene.add(photo12);
 //start and stop gallery entry
 
 enterBtn.addEventListener("click", (e) => {
